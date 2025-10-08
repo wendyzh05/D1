@@ -1,64 +1,80 @@
 import "./style.css";
 import flowerImage from "./flower.png";
 
+
 const glow = document.createElement("div");
 glow.classList.add("glow");
+glow.style.position = "absolute";
+glow.style.zIndex = "1";
+
 
 const container = document.createElement("div");
 container.className = "flower-container";
+container.style.position = "relative"; 
+container.style.display = "flex";
+container.style.flexDirection = "column";
+container.style.alignItems = "center";
+container.style.justifyContent = "center";
+container.style.height = "100vh";
 document.body.append(container);
 
-const counterDiv = document.createElement("div");
-counterDiv.className = "click-counter";
-counterDiv.textContent = "Clicks: 0";
-counterDiv.style.cssText = `
-  position: absolute;
-  top: 10px;
-  left: 160px;
-  font-size: 18px;
-  color: #5b21b6;
-  font-weight: bold;
-  pointer-events: none;
-  user-select: none;
-`;
 
-const flowerImg = document.createElement("img");
+const counterDiv: HTMLDivElement = document.createElement("div");
+counterDiv.id = "counterDiv";
+counterDiv.textContent = "flowers clicked: 0";
+
+counterDiv.style.position = "absolute";
+counterDiv.style.top = "16px";
+counterDiv.style.left = "16px";
+counterDiv.style.padding = "6px 12px";
+counterDiv.style.borderRadius = "8px";
+counterDiv.style.fontWeight = "600";
+counterDiv.style.fontFamily = "sans-serif";
+counterDiv.style.color = "#fff";
+counterDiv.style.zIndex = "1000";
+counterDiv.style.background = "rgba(255, 182, 193, 0.5)";
+counterDiv.style.backdropFilter = "blur(4px)";
+counterDiv.style.boxShadow = "0 0 10px rgba(255, 182, 193, 0.4)";
+
+
+const flowerImg: HTMLImageElement = document.createElement("img");
 flowerImg.src = flowerImage;
 flowerImg.alt = "Flower";
 flowerImg.className = "flower-image";
 flowerImg.style.transform = "scale(0.3)";
-
-container.append(glow, flowerImg, counterDiv);
+flowerImg.style.zIndex = "2";
+flowerImg.style.cursor = "pointer";
 
 let clickCount = 0;
 flowerImg.addEventListener("click", () => {
-  console.log("Flower clicked! 🌸");
-  clickCount++;
-  counterDiv.textContent = `Clicks: ${clickCount}`;
+  clickCount += 1;
+  counterDiv.textContent = `flowers clicked: ${clickCount}`;
 
-  console.log("Flower clicked! 🌸");
+  
   flowerImg.classList.remove("bounce");
   void flowerImg.offsetWidth;
   flowerImg.classList.add("bounce");
 });
 
-const btn = document.createElement("button");
-btn.textContent = "🌸 Pet Me";
-btn.style.marginTop = "10px";
+
+const btn: HTMLButtonElement = document.createElement("button");
+btn.textContent = "🌸 Click Me";
+btn.style.marginTop = "20px";
 btn.style.padding = "6px 12px";
-btn.style.fontSize = "12px";
-btn.style.backgroundColor = "#fabbdaff";
+btn.style.fontSize = "20px";
+btn.style.backgroundColor = "#fabbda";
 btn.style.color = "white";
 btn.style.border = "none";
 btn.style.borderRadius = "8px";
 btn.style.cursor = "pointer";
+btn.style.zIndex = "3";
 btn.addEventListener("click", () => {
   flowerImg.classList.remove("bounce");
   void flowerImg.offsetWidth;
   flowerImg.classList.add("bounce");
 });
-container.appendChild(btn);
 
-container.appendChild(glow);
-container.appendChild(flowerImg);
-container.appendChild(counterDiv);
+
+container.append(glow, flowerImg, counterDiv, btn);
+
+
