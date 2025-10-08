@@ -1,23 +1,20 @@
 import "./style.css";
 import flowerImage from "./flower.png";
 
-
 const glow = document.createElement("div");
 glow.classList.add("glow");
 glow.style.position = "absolute";
 glow.style.zIndex = "1";
 
-
 const container = document.createElement("div");
 container.className = "flower-container";
-container.style.position = "relative"; 
+container.style.position = "relative";
 container.style.display = "flex";
 container.style.flexDirection = "column";
 container.style.alignItems = "center";
 container.style.justifyContent = "center";
 container.style.height = "100vh";
 document.body.append(container);
-
 
 const counterDiv: HTMLDivElement = document.createElement("div");
 counterDiv.id = "counterDiv";
@@ -36,7 +33,6 @@ counterDiv.style.background = "rgba(255, 182, 193, 0.5)";
 counterDiv.style.backdropFilter = "blur(4px)";
 counterDiv.style.boxShadow = "0 0 10px rgba(255, 182, 193, 0.4)";
 
-
 const flowerImg: HTMLImageElement = document.createElement("img");
 flowerImg.src = flowerImage;
 flowerImg.alt = "Flower";
@@ -50,12 +46,10 @@ flowerImg.addEventListener("click", () => {
   clickCount += 1;
   counterDiv.textContent = `flowers clicked: ${clickCount}`;
 
-  
   flowerImg.classList.remove("bounce");
   void flowerImg.offsetWidth;
   flowerImg.classList.add("bounce");
 });
-
 
 const btn: HTMLButtonElement = document.createElement("button");
 btn.textContent = "🌸 Click Me";
@@ -74,7 +68,4 @@ btn.addEventListener("click", () => {
   flowerImg.classList.add("bounce");
 });
 
-
 container.append(glow, flowerImg, counterDiv, btn);
-
-
