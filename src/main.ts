@@ -13,8 +13,7 @@ flowerImg.src = flowerImage;
 flowerImg.alt = "Flower";
 flowerImg.className = "flower-image";
 container.append(flowerImg);
-flowerImg.style.transform = 'scale(0.3)';
-
+flowerImg.style.transform = "scale(0.3)";
 
 flowerImg.addEventListener("click", () => {
   console.log("Flower clicked! 🌸");

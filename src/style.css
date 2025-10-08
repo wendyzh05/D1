@@ -5,7 +5,7 @@ body {
   font-family: sans-serif;
   align-items: flex-start;
   justify-content: flex-start;
-  position: relative; 
+  position: relative;
   margin: 0;
   overflow: hidden;
 }
@@ -22,17 +22,27 @@ body {
   width: 120px;
   height: 120px;
   cursor: pointer;
-  user-select: none;   
-  transform: scale(0.3);         
+  user-select: none;
+  transform: scale(0.3);
   transition: transform 0.2s ease;
 }
 
 @keyframes bounce {
-  0%   { transform: scale(0.3); }
-  30%  { transform: scale(0.36); }  
-  50%  { transform: scale(0.27); }  
-  70%  { transform: scale(0.32); }
-  100% { transform: scale(0.3); }
+  0% {
+    transform: scale(0.3);
+  }
+  30% {
+    transform: scale(0.36);
+  }
+  50% {
+    transform: scale(0.27);
+  }
+  70% {
+    transform: scale(0.32);
+  }
+  100% {
+    transform: scale(0.3);
+  }
 }
 
 .bounce {
@@ -46,7 +56,11 @@ body {
   transform: translate(-50%, -50%);
   width: 350px;
   height: 350px;
-  background: radial-gradient(circle, rgba(246, 255, 0, 0.896) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(246, 255, 0, 0.896) 0%,
+    transparent 70%
+  );
   animation: glow-pulse 1.5s ease-in-out infinite;
   pointer-events: none;
 }
