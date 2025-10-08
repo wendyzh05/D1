@@ -4,7 +4,7 @@ import flowerImage from "./flower.png";
 const glow = document.createElement("div");
 glow.classList.add("glow");
 glow.style.position = "absolute";
-glow.style.zIndex = "1";
+glow.style.zIndex = "2";
 
 const container = document.createElement("div");
 container.className = "flower-container";
@@ -18,7 +18,7 @@ document.body.append(container);
 
 const counterDiv: HTMLDivElement = document.createElement("div");
 counterDiv.id = "counterDiv";
-counterDiv.textContent = "flowers clicked: 0";
+counterDiv.textContent = "Flowers Clicked: 0";
 
 counterDiv.style.position = "absolute";
 counterDiv.style.top = "16px";
@@ -44,7 +44,7 @@ flowerImg.style.cursor = "pointer";
 let clickCount = 0;
 flowerImg.addEventListener("click", () => {
   clickCount += 1;
-  counterDiv.textContent = `flowers clicked: ${clickCount}`;
+  counterDiv.textContent = `Flowers Clicked: ${clickCount}`;
 
   flowerImg.classList.remove("bounce");
   void flowerImg.offsetWidth;
