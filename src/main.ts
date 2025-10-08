@@ -1,6 +1,27 @@
-import exampleIconUrl from "./noun-paperclip-7598668-00449F.png";
 import "./style.css";
+import flowerImage from "./flower.png";
 
-document.body.innerHTML = `
-  <p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>
-`;
+const glow = document.createElement("div");
+glow.classList.add("glow");
+
+const container = document.createElement("div");
+container.className = "flower-container";
+document.body.append(container);
+
+const flowerImg = document.createElement("img");
+flowerImg.src = flowerImage;
+flowerImg.alt = "Flower";
+flowerImg.className = "flower-image";
+container.append(flowerImg);
+flowerImg.style.transform = 'scale(0.3)';
+
+
+flowerImg.addEventListener("click", () => {
+  console.log("Flower clicked! 🌸");
+  flowerImg.classList.remove("bounce");
+  void flowerImg.offsetWidth;
+  flowerImg.classList.add("bounce");
+});
+
+container.appendChild(glow);
+container.appendChild(flowerImg);
