@@ -69,3 +69,5 @@ btn.addEventListener("click", () => {
 });
 
 container.append(glow, flowerImg, counterDiv, btn);
+
+console.log("hello");
