@@ -75,3 +75,10 @@ body {
     opacity: 0.9;
   }
 }
+
+.click-counter {
+  position: absolute;
+  top: 10px;
+  left: 160px;
+  z-index: 2;
+}
