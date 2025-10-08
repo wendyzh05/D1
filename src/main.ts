@@ -30,10 +30,8 @@ flowerImg.style.transform = "scale(0.3)";
 
 container.append(glow, flowerImg, counterDiv);
 
-
 let clickCount = 0;
 flowerImg.addEventListener("click", () => {
-
   console.log("Flower clicked! 🌸");
   clickCount++;
   counterDiv.textContent = `Clicks: ${clickCount}`;
@@ -42,8 +40,6 @@ flowerImg.addEventListener("click", () => {
   flowerImg.classList.remove("bounce");
   void flowerImg.offsetWidth;
   flowerImg.classList.add("bounce");
-
-  
 });
 
 const btn = document.createElement("button");
