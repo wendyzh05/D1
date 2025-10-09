@@ -34,11 +34,11 @@ counterDiv.style.backdropFilter = "blur(4px)";
 counterDiv.style.boxShadow = "0 0 10px rgba(233, 164, 197, 0.4)";
 
 const clickText = document.createElement("div");
-clickText.textContent = "Click 🌸";
+clickText.textContent = "Click 🌸 !";
 clickText.style.position = "absolute";
 clickText.style.marginTop = "10px";
 clickText.style.top = "150px";
-clickText.style.left = "475px";
+clickText.style.left = "465px";
 clickText.style.fontSize = "22px";
 clickText.style.fontWeight = "600";
 clickText.style.color = "#ffffffff";
@@ -54,6 +54,8 @@ flowerImg.style.zIndex = "2";
 flowerImg.style.cursor = "pointer";
 
 let clickCount = 0;
+let lastTime = performance.now();
+
 flowerImg.addEventListener("click", () => {
   clickCount += 1;
   counterDiv.textContent = `Flower petals: ${clickCount}`;
@@ -63,9 +65,15 @@ flowerImg.addEventListener("click", () => {
   flowerImg.classList.add("bounce");
 });
 
-setInterval(() => {
-  clickCount += 1;
-  counterDiv.textContent = `Flower petals: ${clickCount}`;
-}, 1000);
+function update(currentTime: number) {
+  const deltaTime = (currentTime - lastTime) / 1000;
+  lastTime = currentTime;
+
+  clickCount += deltaTime;
+  counterDiv.textContent = `Flower petals: ${Math.floor(clickCount)}`;
+  requestAnimationFrame(update);
+}
+
+requestAnimationFrame(update);
 
 container.append(glow, flowerImg, clickText, counterDiv);
