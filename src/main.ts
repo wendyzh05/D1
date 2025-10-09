@@ -33,6 +33,22 @@ counterDiv.style.background = "rgba(255, 182, 193, 0.5)";
 counterDiv.style.backdropFilter = "blur(4px)";
 counterDiv.style.boxShadow = "0 0 10px rgba(233, 164, 197, 0.4)";
 
+const upgradeBtn = document.createElement("button");
+upgradeBtn.textContent = "Buy Daisies (10 petals)";
+upgradeBtn.style.position = "absolute";
+upgradeBtn.style.top = "100px";
+upgradeBtn.style.left = "100px";
+upgradeBtn.style.zIndex = "1001";
+upgradeBtn.style.marginTop = "15px";
+upgradeBtn.style.padding = "10px 18px";
+upgradeBtn.style.fontSize = "18px";
+upgradeBtn.style.border = "none";
+upgradeBtn.style.borderRadius = "8px";
+upgradeBtn.style.backgroundColor = "#ffb6c1";
+upgradeBtn.style.color = "#fff";
+upgradeBtn.style.cursor = "pointer";
+upgradeBtn.style.boxShadow = "0 0 10px rgba(255, 182, 193, 0.4)";
+
 const clickText = document.createElement("div");
 clickText.textContent = "Click 🌸 !";
 clickText.style.position = "absolute";
@@ -54,6 +70,7 @@ flowerImg.style.zIndex = "2";
 flowerImg.style.cursor = "pointer";
 
 let clickCount = 0;
+let growthRate = 0;
 let lastTime = performance.now();
 
 flowerImg.addEventListener("click", () => {
@@ -65,11 +82,19 @@ flowerImg.addEventListener("click", () => {
   flowerImg.classList.add("bounce");
 });
 
+upgradeBtn.addEventListener("click", () => {
+  if (clickCount >= 10) {
+    clickCount -= 10;
+    growthRate += 1;
+    counterDiv.textContent = `Flower petals: ${Math.floor(clickCount)}`;
+  }
+});
+
 function update(currentTime: number) {
   const deltaTime = (currentTime - lastTime) / 1000;
   lastTime = currentTime;
 
-  clickCount += deltaTime;
+  clickCount += growthRate * deltaTime;
   counterDiv.textContent = `Flower petals: ${Math.floor(clickCount)}`;
   requestAnimationFrame(update);
 }
@@ -77,3 +102,4 @@ function update(currentTime: number) {
 requestAnimationFrame(update);
 
 container.append(glow, flowerImg, clickText, counterDiv);
+document.body.append(upgradeBtn);
