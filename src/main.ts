@@ -3,6 +3,8 @@ import flowerImage from "./flower.png";
 import daisyImage from "./daisy.png";
 import tulipImage from "./tulip.png";
 import roseImage from "./rose.png";
+import sunfImage from "./sunflower.png";
+import cherryImage from "./cherry.png";
 
 const glow = document.createElement("div");
 glow.classList.add("glow");
@@ -96,15 +98,17 @@ const availableItems: Item[] = [
   { name: "Daisy", cost: 10, rate: 0.1, image: daisyImage },
   { name: "Tulip", cost: 100, rate: 2, image: tulipImage },
   { name: "Rose", cost: 1000, rate: 50, image: roseImage },
+  { name: "Sunflower", cost: 5000, rate: 100, image: sunfImage },
+  { name: "Cherry", cost: 10000, rate: 250, image: cherryImage },
 ];
 
 const upgradeContainer = document.createElement("div");
 upgradeContainer.style.position = "absolute";
-upgradeContainer.style.top = "100px";
+upgradeContainer.style.top = "50px";
 upgradeContainer.style.left = "100px";
 upgradeContainer.style.display = "flex";
 upgradeContainer.style.flexDirection = "column";
-upgradeContainer.style.gap = "40px";
+upgradeContainer.style.gap = "30px";
 
 const itemsOwned: Record<string, number> = {};
 availableItems.forEach((item) => (itemsOwned[item.name] = 0));
@@ -132,9 +136,9 @@ availableItems.forEach((item) => {
     padding: "10px 20px",
     fontSize: "18px",
     border: "none",
-    borderRadius: "12px",
-    backgroundColor: "#ffb6c1",
-    color: "#fff",
+    borderRadius: "10px",
+    backgroundColor: "#fffbb6ff",
+    color: "#000000ff",
     cursor: "pointer",
     boxShadow: "0 0 10px rgba(255, 182, 193, 0.4)",
     textAlign: "left",
