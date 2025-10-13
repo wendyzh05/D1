@@ -1,5 +1,8 @@
 import "./style.css";
 import flowerImage from "./flower.png";
+import daisyImage from "./daisy.png";
+import tulipImage from "./tulip.png";
+import roseImage from "./rose.png";
 
 const glow = document.createElement("div");
 glow.classList.add("glow");
@@ -103,21 +106,44 @@ upgradeContainer.style.top = "100px";
 upgradeContainer.style.left = "100px";
 upgradeContainer.style.display = "flex";
 upgradeContainer.style.flexDirection = "column";
-upgradeContainer.style.gap = "10px";
+upgradeContainer.style.gap = "40px";
 
 upgrades.forEach((u) => {
   const btn = document.createElement("button");
   btn.textContent = `${u.name} (${u.cost} petals) — Owned: 0`;
   Object.assign(btn.style, {
-    padding: "10px 18px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    gap: "15px",
+    width: "340px",
+    height: "100px",
+    padding: "10px 20px",
     fontSize: "18px",
     border: "none",
-    borderRadius: "8px",
+    borderRadius: "12px",
     backgroundColor: "#ffb6c1",
     color: "#fff",
     cursor: "pointer",
     boxShadow: "0 0 10px rgba(255, 182, 193, 0.4)",
+    textAlign: "left",
   });
+
+  const img = document.createElement("img");
+  img.alt = u.name;
+  img.style.width = "60px";
+  img.style.height = "60px";
+  img.style.objectFit = "contain";
+
+  if (u.id === "A") img.src = daisyImage;
+  if (u.id === "B") img.src = tulipImage;
+  if (u.id === "C") img.src = roseImage;
+
+  const textSpan = document.createElement("span");
+  textSpan.textContent = `${u.name} (${u.cost} petals) — Owned: 0`;
+
+  btn.textContent = "";
+  btn.append(img, textSpan);
 
   btn.addEventListener("click", () => {
     if (clickCount >= u.cost) {
@@ -125,9 +151,9 @@ upgrades.forEach((u) => {
       growthRate += u.rate;
       upgradesOwned[u.id]++;
       u.cost *= 1.15;
-      btn.textContent = `${u.name} (${u.cost.toFixed(1)} petals) — Owned: ${
-        upgradesOwned[u.id]
-      }`;
+      textSpan.textContent = `${u.name} (${
+        u.cost.toFixed(1)
+      } petals) — Owned: ${upgradesOwned[u.id]}`;
       rateDiv.textContent = `Growth rate: ${growthRate.toFixed(1)} petals/sec`;
       counterDiv.textContent = `Flower petals: ${Math.floor(clickCount)}`;
     }
