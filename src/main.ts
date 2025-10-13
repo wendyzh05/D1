@@ -73,6 +73,57 @@ let clickCount = 0;
 let growthRate = 0;
 let lastTime = performance.now();
 
+type UpgradeID = "A" | "B" | "C";
+
+const upgradesOwned: Record<UpgradeID, number> = {
+  A: 0,
+  B: 0,
+  C: 0,
+};
+
+const upgrades: { id: UpgradeID; name: string; cost: number; rate: number }[] =
+  [
+    { id: "A", name: "Buy Daisies", cost: 10, rate: 0.1 },
+    { id: "B", name: "Buy Tulips", cost: 100, rate: 2.0 },
+    { id: "C", name: "Buy Roses", cost: 1000, rate: 50.0 },
+  ];
+
+const upgradeContainer = document.createElement("div");
+upgradeContainer.style.position = "absolute";
+upgradeContainer.style.top = "100px";
+upgradeContainer.style.left = "100px";
+upgradeContainer.style.display = "flex";
+upgradeContainer.style.flexDirection = "column";
+upgradeContainer.style.gap = "10px";
+
+upgrades.forEach((u) => {
+  const btn = document.createElement("button");
+  btn.textContent = `${u.name} (${u.cost} petals) — Owned: 0`;
+  Object.assign(btn.style, {
+    padding: "10px 18px",
+    fontSize: "18px",
+    border: "none",
+    borderRadius: "8px",
+    backgroundColor: "#ffb6c1",
+    color: "#fff",
+    cursor: "pointer",
+    boxShadow: "0 0 10px rgba(255, 182, 193, 0.4)",
+  });
+
+  btn.addEventListener("click", () => {
+    if (clickCount >= u.cost) {
+      clickCount -= u.cost;
+      growthRate += u.rate;
+      upgradesOwned[u.id]++;
+      btn.textContent = `${u.name} (${u.cost} petals) — Owned: ${
+        upgradesOwned[u.id]
+      }`;
+    }
+  });
+
+  upgradeContainer.append(btn);
+});
+
 flowerImg.addEventListener("click", () => {
   clickCount += 1;
   counterDiv.textContent = `Flower petals: ${clickCount}`;
@@ -80,14 +131,6 @@ flowerImg.addEventListener("click", () => {
   flowerImg.classList.remove("bounce");
   void flowerImg.offsetWidth;
   flowerImg.classList.add("bounce");
-});
-
-upgradeBtn.addEventListener("click", () => {
-  if (clickCount >= 10) {
-    clickCount -= 10;
-    growthRate += 1;
-    counterDiv.textContent = `Flower petals: ${Math.floor(clickCount)}`;
-  }
 });
 
 function update(currentTime: number) {
@@ -102,4 +145,4 @@ function update(currentTime: number) {
 requestAnimationFrame(update);
 
 container.append(glow, flowerImg, clickText, counterDiv);
-document.body.append(upgradeBtn);
+document.body.append(upgradeContainer);
