@@ -85,20 +85,18 @@ rateDiv.style.fontSize = "20px";
 rateDiv.style.color = "#000000ff";
 rateDiv.style.fontWeight = "600";
 
-type UpgradeID = "A" | "B" | "C";
+interface Item {
+  name: string;
+  cost: number;
+  rate: number;
+  image: string;
+}
 
-const upgradesOwned: Record<UpgradeID, number> = {
-  A: 0,
-  B: 0,
-  C: 0,
-};
-
-const upgrades: { id: UpgradeID; name: string; cost: number; rate: number }[] =
-  [
-    { id: "A", name: "Buy Daisies", cost: 10, rate: 0.1 },
-    { id: "B", name: "Buy Tulips", cost: 100, rate: 2.0 },
-    { id: "C", name: "Buy Roses", cost: 1000, rate: 50.0 },
-  ];
+const availableItems: Item[] = [
+  { name: "Daisy", cost: 10, rate: 0.1, image: daisyImage },
+  { name: "Tulip", cost: 100, rate: 2, image: tulipImage },
+  { name: "Rose", cost: 1000, rate: 50, image: roseImage },
+];
 
 const upgradeContainer = document.createElement("div");
 upgradeContainer.style.position = "absolute";
@@ -108,9 +106,22 @@ upgradeContainer.style.display = "flex";
 upgradeContainer.style.flexDirection = "column";
 upgradeContainer.style.gap = "40px";
 
-upgrades.forEach((u) => {
+const itemsOwned: Record<string, number> = {};
+availableItems.forEach((item) => (itemsOwned[item.name] = 0));
+
+availableItems.forEach((item) => {
   const btn = document.createElement("button");
-  btn.textContent = `${u.name} (${u.cost} petals) — Owned: 0`;
+
+  const img = document.createElement("img");
+  img.src = item.image;
+  img.alt = item.name;
+  img.style.width = "60px";
+  img.style.height = "60px";
+  img.style.objectFit = "contain";
+
+  const textSpan = document.createElement("span");
+  textSpan.textContent = `${item.name} (${item.cost} petals) — Owned: 0`;
+
   Object.assign(btn.style, {
     display: "flex",
     alignItems: "center",
@@ -129,37 +140,23 @@ upgrades.forEach((u) => {
     textAlign: "left",
   });
 
-  const img = document.createElement("img");
-  img.alt = u.name;
-  img.style.width = "60px";
-  img.style.height = "60px";
-  img.style.objectFit = "contain";
-
-  if (u.id === "A") img.src = daisyImage;
-  if (u.id === "B") img.src = tulipImage;
-  if (u.id === "C") img.src = roseImage;
-
-  const textSpan = document.createElement("span");
-  textSpan.textContent = `${u.name} (${u.cost} petals) — Owned: 0`;
-
-  btn.textContent = "";
   btn.append(img, textSpan);
+  upgradeContainer.append(btn);
 
   btn.addEventListener("click", () => {
-    if (clickCount >= u.cost) {
-      clickCount -= u.cost;
-      growthRate += u.rate;
-      upgradesOwned[u.id]++;
-      u.cost *= 1.15;
-      textSpan.textContent = `${u.name} (${
-        u.cost.toFixed(1)
-      } petals) — Owned: ${upgradesOwned[u.id]}`;
+    if (clickCount >= item.cost) {
+      clickCount -= item.cost;
+      growthRate += item.rate;
+      itemsOwned[item.name]++;
+      item.cost *= 1.15;
+
+      textSpan.textContent = `${item.name} (${
+        item.cost.toFixed(1)
+      } petals) — Owned: ${itemsOwned[item.name]}`;
       rateDiv.textContent = `Growth rate: ${growthRate.toFixed(1)} petals/sec`;
       counterDiv.textContent = `Flower petals: ${Math.floor(clickCount)}`;
     }
   });
-
-  upgradeContainer.append(btn);
 });
 
 flowerImg.addEventListener("click", () => {
