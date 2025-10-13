@@ -73,6 +73,15 @@ let clickCount = 0;
 let growthRate = 0;
 let lastTime = performance.now();
 
+const rateDiv = document.createElement("div");
+rateDiv.textContent = `Growth rate: ${growthRate.toFixed(1)} petals/sec`;
+rateDiv.style.position = "absolute";
+rateDiv.style.top = "593px";
+rateDiv.style.left = "385px";
+rateDiv.style.fontSize = "20px";
+rateDiv.style.color = "#000000ff";
+rateDiv.style.fontWeight = "600";
+
 type UpgradeID = "A" | "B" | "C";
 
 const upgradesOwned: Record<UpgradeID, number> = {
@@ -118,6 +127,7 @@ upgrades.forEach((u) => {
       btn.textContent = `${u.name} (${u.cost} petals) — Owned: ${
         upgradesOwned[u.id]
       }`;
+      rateDiv.textContent = `Growth rate: ${growthRate.toFixed(1)} petals/sec`;
     }
   });
 
@@ -144,5 +154,5 @@ function update(currentTime: number) {
 
 requestAnimationFrame(update);
 
-container.append(glow, flowerImg, clickText, counterDiv);
+container.append(glow, flowerImg, clickText, counterDiv, rateDiv);
 document.body.append(upgradeContainer);
