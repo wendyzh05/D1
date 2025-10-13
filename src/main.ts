@@ -124,10 +124,12 @@ upgrades.forEach((u) => {
       clickCount -= u.cost;
       growthRate += u.rate;
       upgradesOwned[u.id]++;
-      btn.textContent = `${u.name} (${u.cost} petals) — Owned: ${
+      u.cost *= 1.15;
+      btn.textContent = `${u.name} (${u.cost.toFixed(1)} petals) — Owned: ${
         upgradesOwned[u.id]
       }`;
       rateDiv.textContent = `Growth rate: ${growthRate.toFixed(1)} petals/sec`;
+      counterDiv.textContent = `Flower petals: ${Math.floor(clickCount)}`;
     }
   });
 
