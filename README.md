@@ -1,3 +1,10 @@
 # CMPM 121 D1 Project
 
-This is the starting point for your CMPM 121 D1 project. The goal of this project is to create a simple web application using TypeScript, Vite, and modern web development practices. Students should make sure to remove _this_ content from their README.md file and replace it with their own project documentation.
+A simple incremental game clicker with flowers theme.
+
+## Rules
+
+-Clike the flower to collect petals
+-Spend petals to buy upgrades (Daisy, Sunflower, Tulip, Rose, Cherry)
+-Each upgrade increases the growth rate
+-Prices increase by 15% after each purchase
