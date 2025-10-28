@@ -1,3 +1,4 @@
+//Import images
 import "./style.css";
 import flowerImage from "./flower.png";
 import daisyImage from "./daisy.png";
@@ -6,87 +7,7 @@ import roseImage from "./rose.png";
 import sunfImage from "./sunflower.png";
 import cherryImage from "./cherry.png";
 
-const glow = document.createElement("div");
-glow.classList.add("glow");
-glow.style.position = "absolute";
-glow.style.zIndex = "2";
-
-const container = document.createElement("div");
-container.className = "flower-container";
-container.style.position = "relative";
-container.style.display = "flex";
-container.style.flexDirection = "column";
-container.style.alignItems = "center";
-container.style.justifyContent = "center";
-container.style.height = "100vh";
-document.body.append(container);
-
-const counterDiv: HTMLDivElement = document.createElement("div");
-counterDiv.id = "counterDiv";
-counterDiv.textContent = "Flower petals: 0";
-counterDiv.style.position = "absolute";
-counterDiv.style.top = "540px";
-counterDiv.style.left = "405px";
-counterDiv.style.fontSize = "25px";
-counterDiv.style.padding = "6px 12px";
-counterDiv.style.borderRadius = "8px";
-counterDiv.style.fontWeight = "600";
-counterDiv.style.fontFamily = "sans-serif";
-counterDiv.style.color = "#000000ff";
-counterDiv.style.zIndex = "1000";
-counterDiv.style.background = "rgba(255, 182, 193, 0.5)";
-counterDiv.style.backdropFilter = "blur(4px)";
-counterDiv.style.boxShadow = "0 0 10px rgba(233, 164, 197, 0.4)";
-
-const upgradeBtn = document.createElement("button");
-upgradeBtn.textContent = "Buy Daisies (10 petals)";
-upgradeBtn.style.position = "absolute";
-upgradeBtn.style.top = "100px";
-upgradeBtn.style.left = "100px";
-upgradeBtn.style.zIndex = "1001";
-upgradeBtn.style.marginTop = "15px";
-upgradeBtn.style.padding = "10px 18px";
-upgradeBtn.style.fontSize = "18px";
-upgradeBtn.style.border = "none";
-upgradeBtn.style.borderRadius = "8px";
-upgradeBtn.style.backgroundColor = "#ffb6c1";
-upgradeBtn.style.color = "#fff";
-upgradeBtn.style.cursor = "pointer";
-upgradeBtn.style.boxShadow = "0 0 10px rgba(255, 182, 193, 0.4)";
-
-const clickText = document.createElement("div");
-clickText.textContent = "Click 🌸 !";
-clickText.style.position = "absolute";
-clickText.style.marginTop = "10px";
-clickText.style.top = "150px";
-clickText.style.left = "465px";
-clickText.style.fontSize = "22px";
-clickText.style.fontWeight = "600";
-clickText.style.color = "#ffffffff";
-clickText.style.textShadow = "0 0 6px rgba(61, 47, 50, 0.6)";
-clickText.style.zIndex = "3";
-
-const flowerImg: HTMLImageElement = document.createElement("img");
-flowerImg.src = flowerImage;
-flowerImg.alt = "Flower";
-flowerImg.className = "flower-image";
-flowerImg.style.transform = "scale(0.3)";
-flowerImg.style.zIndex = "2";
-flowerImg.style.cursor = "pointer";
-
-let clickCount = 0;
-let growthRate = 0;
-let lastTime = performance.now();
-
-const rateDiv = document.createElement("div");
-rateDiv.textContent = `Growth rate: ${growthRate.toFixed(1)} petals/sec`;
-rateDiv.style.position = "absolute";
-rateDiv.style.top = "593px";
-rateDiv.style.left = "385px";
-rateDiv.style.fontSize = "20px";
-rateDiv.style.color = "#000000ff";
-rateDiv.style.fontWeight = "600";
-
+//Data
 interface Item {
   name: string;
   cost: number;
@@ -102,19 +23,9 @@ const availableItems: Item[] = [
   { name: "Cherry", cost: 10000, rate: 250, image: cherryImage },
 ];
 
-const upgradeContainer = document.createElement("div");
-upgradeContainer.style.position = "absolute";
-upgradeContainer.style.top = "50px";
-upgradeContainer.style.left = "100px";
-upgradeContainer.style.display = "flex";
-upgradeContainer.style.flexDirection = "column";
-upgradeContainer.style.gap = "30px";
-
-const itemsOwned: Record<string, number> = {};
-availableItems.forEach((item) => (itemsOwned[item.name] = 0));
-
-availableItems.forEach((item) => {
-  const btn = document.createElement("button");
+//Function
+function createUpgradeButton(item: Item): HTMLButtonElement {
+  const button = document.createElement("button");
 
   const img = document.createElement("img");
   img.src = item.image;
@@ -123,46 +34,133 @@ availableItems.forEach((item) => {
   img.style.height = "60px";
   img.style.objectFit = "contain";
 
-  const textSpan = document.createElement("span");
-  textSpan.textContent = `${item.name} (${item.cost} petals) — Owned: 0`;
+  const upgradeLabel = document.createElement("span");
+  upgradeLabel.textContent = `${item.name} (${item.cost} petals) — Owned: 0`;
 
-  Object.assign(btn.style, {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    gap: "15px",
-    width: "340px",
-    height: "100px",
-    padding: "10px 20px",
-    fontSize: "18px",
-    border: "none",
-    borderRadius: "10px",
-    backgroundColor: "#fffbb6ff",
-    color: "#000000ff",
-    cursor: "pointer",
-    boxShadow: "0 0 10px rgba(255, 182, 193, 0.4)",
-    textAlign: "left",
-  });
+  button.classList.add("upgrade-button");
 
-  btn.append(img, textSpan);
-  upgradeContainer.append(btn);
+  button.append(img, upgradeLabel);
+  return button;
+}
 
-  btn.addEventListener("click", () => {
+//DOM setup
+const glow = document.createElement("div");
+glow.classList.add("glow");
+glow.style.position = "absolute";
+glow.style.zIndex = "2";
+
+// Flower container
+const container = document.createElement("div");
+container.className = "flower-container";
+container.style.position = "relative";
+container.style.display = "flex";
+container.style.flexDirection = "column";
+container.style.alignItems = "center";
+container.style.justifyContent = "center";
+container.style.height = "100vh";
+document.body.append(container);
+
+// Counter
+const counterDiv: HTMLDivElement = document.createElement("div");
+counterDiv.id = "counterDiv";
+counterDiv.textContent = "Flower petals: 0";
+Object.assign(counterDiv.style, {
+  position: "absolute",
+  top: "540px",
+  left: "405px",
+  fontSize: "25px",
+  padding: "6px 12px",
+  borderRadius: "8px",
+  fontWeight: "600",
+  fontFamily: "sans-serif",
+  color: "#000000ff",
+  zIndex: "1000",
+  background: "rgba(255, 182, 193, 0.5)",
+  backdropFilter: "blur(4px)",
+  boxShadow: "0 0 10px rgba(233, 164, 197, 0.4)",
+});
+
+// Click text
+const clickText = document.createElement("div");
+clickText.textContent = "Click 🌸 !";
+Object.assign(clickText.style, {
+  position: "absolute",
+  marginTop: "10px",
+  top: "150px",
+  left: "465px",
+  fontSize: "22px",
+  fontWeight: "600",
+  color: "#ffffffff",
+  textShadow: "0 0 6px rgba(61, 47, 50, 0.6)",
+  zIndex: "3",
+});
+
+// Flower image
+const flowerImg: HTMLImageElement = document.createElement("img");
+flowerImg.src = flowerImage;
+flowerImg.alt = "Flower";
+flowerImg.className = "flower-image";
+Object.assign(flowerImg.style, {
+  transform: "scale(0.3)",
+  zIndex: "2",
+  cursor: "pointer",
+});
+
+// Upgrade display
+const growthRateDisplay = document.createElement("div");
+let clickCount = 0;
+let growthRate = 0;
+growthRateDisplay.textContent = `Growth rate: ${
+  growthRate.toFixed(1)
+} petals/sec`;
+Object.assign(growthRateDisplay.style, {
+  position: "absolute",
+  top: "593px",
+  left: "385px",
+  fontSize: "20px",
+  color: "#000000ff",
+  fontWeight: "600",
+});
+
+// Upgrade container
+const upgradeContainer = document.createElement("div");
+Object.assign(upgradeContainer.style, {
+  position: "absolute",
+  top: "50px",
+  left: "100px",
+  display: "flex",
+  flexDirection: "column",
+  gap: "30px",
+});
+
+const itemsOwned: Record<string, number> = {};
+availableItems.forEach((item) => (itemsOwned[item.name] = 0));
+
+// Create and append upgrade buttons
+availableItems.forEach((item) => {
+  const button = createUpgradeButton(item);
+  upgradeContainer.append(button);
+
+  button.addEventListener("click", () => {
     if (clickCount >= item.cost) {
       clickCount -= item.cost;
       growthRate += item.rate;
       itemsOwned[item.name]++;
       item.cost *= 1.15;
 
-      textSpan.textContent = `${item.name} (${
+      const label = button.querySelector("span")!;
+      label.textContent = `${item.name} (${
         item.cost.toFixed(1)
       } petals) — Owned: ${itemsOwned[item.name]}`;
-      rateDiv.textContent = `Growth rate: ${growthRate.toFixed(1)} petals/sec`;
+      growthRateDisplay.textContent = `Growth rate: ${
+        growthRate.toFixed(1)
+      } petals/sec`;
       counterDiv.textContent = `Flower petals: ${Math.floor(clickCount)}`;
     }
   });
 });
 
+//Game Interaction
 flowerImg.addEventListener("click", () => {
   clickCount += 1;
   counterDiv.textContent = `Flower petals: ${clickCount}`;
@@ -171,6 +169,8 @@ flowerImg.addEventListener("click", () => {
   void flowerImg.offsetWidth;
   flowerImg.classList.add("bounce");
 });
+
+let lastTime = performance.now();
 
 function update(currentTime: number) {
   const deltaTime = (currentTime - lastTime) / 1000;
@@ -183,5 +183,6 @@ function update(currentTime: number) {
 
 requestAnimationFrame(update);
 
-container.append(glow, flowerImg, clickText, counterDiv, rateDiv);
+// Append everything to DOM
+container.append(glow, flowerImg, clickText, counterDiv, growthRateDisplay);
 document.body.append(upgradeContainer);

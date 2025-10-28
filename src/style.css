@@ -84,3 +84,21 @@ body {
   left: 160px;
   z-index: 2;
 }
+
+.upgrade-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  width: 340px;
+  height: 100px;
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffbb6fff;
+  color: #000000ff;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 182, 193, 0.4);
+  text-align: left;
+}
