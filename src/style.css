@@ -96,9 +96,54 @@ body {
   font-size: 18px;
   border: none;
   border-radius: 10px;
-  background-color: #ffbb6fff;
+  background-color: rgb(255, 201, 230);
   color: #000000ff;
   cursor: pointer;
   box-shadow: 0 0 10px rgba(255, 182, 193, 0.4);
   text-align: left;
+}
+
+.floating-text {
+  position: absolute;
+  font-size: 20px;
+  font-weight: bold;
+  color: #000000;
+  pointer-events: none;
+  animation: floatUp 1s ease-out forwards;
+  z-index: 1000;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-60px);
+    opacity: 0;
+  }
+}
+
+.upgrade-button.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.8);
+  transition: opacity 0.3s, filter 0.3s;
+}
+
+.upgrade-button.locked:hover::after {
+  content: attr(title);
+  position: absolute;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 2000;
 }

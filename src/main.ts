@@ -160,14 +160,58 @@ availableItems.forEach((item) => {
   });
 });
 
+//unclickable upgrades inspired by https://github.com/t4ylo/cmpm-121-25-d1-taylorpearce
+function updateUpgradeButtons() {
+  const buttons = upgradeContainer.querySelectorAll("button");
+  buttons.forEach((button, index) => {
+    const item = availableItems[index];
+    const label = button.querySelector("span")!;
+    if (clickCount < item.cost) {
+      // Lock state
+      button.disabled = true;
+      button.classList.add("locked");
+      button.title = `Locked — need ${
+        Math.ceil(item.cost - clickCount)
+      } more petals`;
+    } else {
+      // Unlock state
+      button.disabled = false;
+      button.classList.remove("locked");
+      button.title = `Buy ${item.name}`;
+    }
+    // Update label with cost and ownership
+    label.textContent = `${item.name} (${
+      item.cost.toFixed(1)
+    } petals) — Owned: ${itemsOwned[item.name]}`;
+  });
+}
+
+//number floating when clicking (inspired by https://github.com/inyoo403/D1.a )
+function showFloatingText(amount: number, x: number, y: number) {
+  const el = document.createElement("div");
+  el.className = "floating-text";
+  el.textContent = `+${amount.toFixed(1)}`;
+
+  const rect = container.getBoundingClientRect();
+  el.style.left = `${x - rect.left}px`;
+  el.style.top = `${y - rect.top}px`;
+  container.appendChild(el);
+
+  el.addEventListener("animationend", () => el.remove());
+}
+
 //Game Interaction
-flowerImg.addEventListener("click", () => {
+flowerImg.addEventListener("click", (ev) => {
   clickCount += 1;
   counterDiv.textContent = `Flower petals: ${clickCount}`;
 
   flowerImg.classList.remove("bounce");
   void flowerImg.offsetWidth;
   flowerImg.classList.add("bounce");
+  const rect = flowerImg.getBoundingClientRect();
+  const x = ev.clientX ?? rect.left + Math.random() * rect.width;
+  const y = ev.clientY ?? rect.top + Math.random() * rect.height;
+  showFloatingText(1, x, y);
 });
 
 let lastTime = performance.now();
@@ -178,6 +222,7 @@ function update(currentTime: number) {
 
   clickCount += growthRate * deltaTime;
   counterDiv.textContent = `Flower petals: ${Math.floor(clickCount)}`;
+  updateUpgradeButtons();
   requestAnimationFrame(update);
 }
 
